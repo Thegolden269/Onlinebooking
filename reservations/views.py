@@ -86,6 +86,7 @@ class CreateReservationAPIView(APIView):
         self.send_confirmation_email(reservation)
 
         return Response({"message": "Réservation confirmée"}, status=status.HTTP_201_CREATED)
+
     def send_confirmation_email(self, reservation):
         subject = "Confirmation de votre réservation"
         message = f"""
