@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Reservation
+from .models import Reservation, Creneau
 from utils.validators import validate_phone, validate_email
 
 class ReservationSerializer(serializers.ModelSerializer):
@@ -18,3 +18,9 @@ class ReservationSerializer(serializers.ModelSerializer):
         if not value:
             raise serializers.ValidationError("L'email est obligatoire pour effectuer une réservation.")
         return value
+
+
+class CreneauSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Creneau
+        fields = '__all__'

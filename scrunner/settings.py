@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config, Csv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,23 +21,24 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-^9$2jf_!6t8#dn8_auf%^zw12z@l!q+&9__7crswfr88*#-brm'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost",
-    "http://localhost:5173"
-]
-CORS_ALLOW_ALL_ORIGINS = True
 
-ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-    "localhost:8000",
-    "http://localhost",
-    "http://localhost:5173",
-]
+DEBUG = config("DEBUG", default=False, cast=bool)
+
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
+
+# CORS
+CORS_ALLOWED_ORIGINS = config("CORS_ALLOWED_ORIGINS", cast=Csv(), default=[])
+CORS_ALLOW_ALL_ORIGINS = config("CORS_ALLOW_ALL_ORIGINS", default=False, cast=bool)
+CORS_ALLOW_CREDENTIALS = True
+
+
+CORS_ALLOW_CREDENTIALS = True
+
+
+
 
 
 # Application definition
@@ -48,8 +50,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #internal apps
+
     'scrunner',
     'reservations',
+    
+    #third party    
+    
     'rest_framework',
     'corsheaders',
 
@@ -89,11 +97,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'scrunner.wsgi.application'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'  # ou un autre fournisseur comme SendGrid
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'komorconnect@gmail.com'  # Ton email pour envoyer
-EMAIL_HOST_PASSWORD = 'wrln krus deqs fhqb'  # Mot de passe de l'email
+EMAIL_HOST = 'smtp.gmail.com'  
+EMAIL_USE_TLS = config('EMAIL_USE_TLS')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')  
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 
 

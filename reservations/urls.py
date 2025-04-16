@@ -7,4 +7,5 @@ urlpatterns = [
     path('reservations/<str:numero_reservation>/update/', views.update_reservation_view, name='update-reservation'),
     path('reservations/<str:numero_reservation>/cancel/', views.cancel_reservation_view, name='cancel-reservation'),
     path('reservations/<str:numero_reservation>/', views.retrieve_reservation_view, name='retrieve-reservation'),
+    path('get-or-generate-creneaux/', views.get_or_generate_creneaux, name='get_or_generate_creneaux'),
 ]
